@@ -1,19 +1,32 @@
 package com.devsuperior.desafiocrudclientes.dtos;
 
 import com.devsuperior.desafiocrudclientes.entities.Cliente;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
 public class ClienteDTO {
 
+    private Long id;
+
+    @Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
+    @NotBlank(message = "Campo requerido")
     private String name;
 
+    @CPF (message = "CPF Invalido")
     private String cpf;
 
+    @PositiveOrZero(message = "Renda deve ser maior ou igual a zero")
     private Double income;
 
+    @Past (message = "Data de nascimento deve ser anterior a hoje")
     private LocalDate birthDate;
 
+    @PositiveOrZero (message = "Campo deve ser maior ou igual a zero")
     private Integer children;
 
     public ClienteDTO(String name, String cpf, Double income, LocalDate birthDate, Integer children) {
@@ -30,6 +43,14 @@ public class ClienteDTO {
         income = cliente.getIncome();
         birthDate = cliente.getBirthDate();
         children = cliente.getChildren();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
